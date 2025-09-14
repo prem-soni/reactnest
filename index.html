@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Nest</title>     
+        <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-logo">
+            <img src="reactnest.png" alt="React Nest Logo">
+        </div>
+        <h1 class="splash-title">React Nest</h1>
+        <p class="splash-subtitle">Create React Projects Instantly</p>
+        
+        <div class="loading-container">
+            <div class="loading-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <div class="progress-bar-splash">
+                <div class="progress-fill-splash"></div>
+            </div>
+            <div class="loading-text">Loading your development environment...</div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="app-container" id="mainApp">
+        <div class="title-bar">
+            <div class="title-bar-left">
+                <div class="logo-container">
+                    <img src="reactnest.png" alt="Logo" class="logo-image">
+                </div>
+                <h1 class="header-logo">React Nest</h1>
+            </div>
+            <div class="title-bar-center">
+                <button class="tab-btn active" data-tab="create">Create Project</button>
+                <button class="tab-btn" data-tab="packages">Packages</button>
+            </div>
+            <div class="window-controls">
+                <button class="control-btn minimize" id="minimizeBtn">−</button>
+                <button class="control-btn maximize" id="maximizeBtn">□</button>
+                <button class="control-btn close" id="closeBtn">×</button>
+            </div>
+        </div>
+
+        <div class="main-layout">
+            <!-- Create Project Tab -->
+            <div class="tab-content active" id="create-tab">
+                <div class="main-content">
+                    <div class="welcome-section">
+                        <h2>Create Your React Project</h2>
+                        <p>Instantly scaffold a modern React project – no hassle, one click.</p>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="input-group">
+                            <label for="projectName">Project Name</label>
+                            <input 
+                                type="text" 
+                                id="projectName" 
+                                class="input-field" 
+                                placeholder="my-awesome-react-app"
+                            >
+                            <small class="input-hint">Use lowercase letters, numbers, and hyphens only</small>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="folderPath">Installation Directory</label>
+                            <div class="folder-selector">
+                                <input 
+                                    type="text" 
+                                    id="folderPath" 
+                                    class="input-field" 
+                                    placeholder="Select where to create your project"
+                                    readonly
+                                >
+                                <button class="browse-btn" id="browseFolderBtn">Browse</button>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Project Template</label>
+                            <div class="project-type-grid">
+                                <div class="project-type-card selected" data-type="create-react-app">
+                                    <div class="card-icon">⚛️</div>
+                                    <h4>Create React App</h4>
+                                    <p>Official React starter with zero configuration</p>
+                                    <div class="card-badge">Beginner Friendly</div>
+                                </div>
+                                <div class="project-type-card" data-type="vite">
+                                    <div class="card-icon">⚡</div>
+                                    <h4>Vite + React</h4>
+                                    <p>Lightning fast build tool with HMR</p>
+                                    <div class="card-badge">Fast Development</div>
+                                </div>
+                                <div class="project-type-card" data-type="next">
+                                    <div class="card-icon">▲</div>
+                                    <h4>Next.js</h4>
+                                    <p>Full-stack React framework with SSR</p>
+                                    <div class="card-badge">Production Ready</div>
+                                </div>
+                                <!-- <div class="project-type-card" data-type="remix">
+                                    <div class="card-icon">💿</div>
+                                    <h4>Remix</h4>
+                                    <p>Modern web framework focused on web standards</p>
+                                    <div class="card-badge">Web Standards</div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="install-section">
+                        <button class="install-btn" id="installBtn">Create Project</button>
+                        
+                        <div class="progress-section" id="progressSection" style="display: none;">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <div class="progress-text" id="progressText">Initializing...</div>
+                        </div>
+                        
+                        <div class="terminal-output" id="terminalOutput" style="display: none;">
+                            <div class="terminal-header">
+                                <span>Terminal Output</span>
+                                <button class="terminal-toggle" id="terminalToggle">Hide</button>
+                            </div>
+                            <div class="terminal-content" id="terminalContent"></div>
+                        </div>
+                        
+                        <div class="status-message" id="statusMessage"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Packages Tab -->
+            <div class="tab-content" id="packages-tab">
+                <div class="packages-layout">
+                    <div class="packages-header">
+                        <h2>React Packages & Commands</h2>
+                        <div class="search-container">
+                            <input 
+                                type="text" 
+                                id="packageSearch" 
+                                class="search-input" 
+                                placeholder="Search packages..."
+                            >
+                        </div>
+                    </div>
+
+                    <div class="packages-content">
+                        <div class="packages-sidebar">
+                            <div class="category-nav">
+                                <button class="category-btn active" data-category="all">All Packages</button>
+                                <button class="category-btn" data-category="ui">UI Components</button>
+                                <button class="category-btn" data-category="state">State Management</button>
+                                <button class="category-btn" data-category="routing">Routing</button>
+                                <button class="category-btn" data-category="styling">Styling</button>
+                                <button class="category-btn" data-category="testing">Testing</button>
+                                <button class="category-btn" data-category="build">Build Tools</button>
+                                <button class="category-btn" data-category="utilities">Utilities</button>
+                            </div>
+                        </div>
+
+                        <div class="packages-main">
+                            <div class="packages-grid" id="packagesGrid">
+                                <!-- Packages will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copy Notification -->
+        <div class="copy-notification" id="copyNotification">
+            <span>✓ Command copied to clipboard!</span>
+        </div>
+    </div>
+
+    <script>
+        // Debug flag for detailed logging
+        const DEBUG = true;
+
+        function debugLog(...args) {
+            if (DEBUG) {
+                console.log('[DEBUG]', ...args);
+            }
+        }
+
+        // Packages data
+        const packagesData = [
+            // UI Components
+            { name: 'React Router', command: 'npm install react-router-dom', description: 'Declarative routing for React applications', category: 'routing' },
+            { name: 'Material-UI', command: 'npm install @mui/material @emotion/react @emotion/styled', description: 'React components implementing Google\'s Material Design', category: 'ui' },
+            { name: 'Ant Design', command: 'npm install antd', description: 'Enterprise-ready UI components for React', category: 'ui' },
+            { name: 'Chakra UI', command: 'npm install @chakra-ui/react @emotion/react @emotion/styled framer-motion', description: 'Modular and accessible component library', category: 'ui' },
+            { name: 'React Bootstrap', command: 'npm install react-bootstrap bootstrap', description: 'Bootstrap components built for React', category: 'ui' },
+            { name: 'React DnD', command: 'npm install react-dnd react-dnd-html5-backend', description: 'Drag and drop for React', category: 'ui' },
+            { name: 'React Select', command: 'npm install react-select', description: 'Flexible and beautiful Select Input control for ReactJS', category: 'ui' },
+            { name: 'React Table', command: 'npm install react-table', description: 'Hooks for building fast and extendable tables and datagrids', category: 'ui' },
+            
+            // State Management
+            { name: 'Redux Toolkit', command: 'npm install @reduxjs/toolkit react-redux', description: 'The official, opinionated, batteries-included toolset for Redux', category: 'state' },
+            { name: 'Zustand', command: 'npm install zustand', description: 'Small, fast and scalable bearbones state-management solution', category: 'state' },
+            { name: 'Recoil', command: 'npm install recoil', description: 'Experimental state management library by Facebook', category: 'state' },
+            { name: 'MobX', command: 'npm install mobx mobx-react-lite', description: 'Simple, scalable state management through reactive programming', category: 'state' },
+            { name: 'Context API', command: '# Built into React - no installation needed', description: 'React\'s built-in state management solution', category: 'state' },
+            
+            // Styling
+            { name: 'Styled Components', command: 'npm install styled-components', description: 'CSS-in-JS library for styling React components', category: 'styling' },
+            { name: 'Emotion', command: 'npm install @emotion/react @emotion/styled', description: 'CSS-in-JS library with great performance', category: 'styling' },
+            { name: 'Tailwind CSS', command: 'npm install tailwindcss postcss autoprefixer', description: 'Utility-first CSS framework', category: 'styling' },
+            { name: 'Sass', command: 'npm install sass', description: 'CSS preprocessor with variables and mixins', category: 'styling' },
+            { name: 'CSS Modules', command: '# Built into Create React App - no installation needed', description: 'Localized CSS', category: 'styling' },
+            { name: 'Stitches', command: 'npm install @stitches/react', description: 'CSS-in-JS with near-zero runtime', category: 'styling' },
+            
+            // Testing
+            { name: 'Jest', command: 'npm install --save-dev jest', description: 'JavaScript testing framework', category: 'testing' },
+            { name: 'React Testing Library', command: 'npm install --save-dev @testing-library/react', description: 'Testing utilities for React components', category: 'testing' },
+            { name: 'Cypress', command: 'npm install --save-dev cypress', description: 'End-to-end testing framework', category: 'testing' },
+            { name: 'Enzyme', command: 'npm install --save-dev enzyme @wojtekmaj/enzyme-adapter-react-17', description: 'JavaScript testing utility for React', category: 'testing' },
+            { name: 'MSW', command: 'npm install --save-dev msw', description: 'Mock Service Worker for API mocking', category: 'testing' },
+            
+            // Build Tools
+            { name: 'Webpack', command: 'npm install --save-dev webpack webpack-cli', description: 'Module bundler for JavaScript applications', category: 'build' },
+            { name: 'Vite', command: 'npm install --save-dev vite', description: 'Fast build tool and dev server', category: 'build' },
+            { name: 'Parcel', command: 'npm install --save-dev parcel', description: 'Zero configuration build tool', category: 'build' },
+            { name: 'Rollup', command: 'npm install --save-dev rollup', description: 'Module bundler for JavaScript', category: 'build' },
+            { name: 'ESBuild', command: 'npm install --save-dev esbuild', description: 'Extremely fast JavaScript bundler', category: 'build' },
+            
+            // Utilities
+            { name: 'Axios', command: 'npm install axios', description: 'Promise-based HTTP client for JavaScript', category: 'utilities' },
+            { name: 'Lodash', command: 'npm install lodash', description: 'JavaScript utility library', category: 'utilities' },
+            { name: 'Date-fns', command: 'npm install date-fns', description: 'Modern JavaScript date utility library', category: 'utilities' },
+            { name: 'React Hook Form', command: 'npm install react-hook-form', description: 'Performant, flexible forms with easy validation', category: 'utilities' },
+            { name: 'Formik', command: 'npm install formik', description: 'Build forms in React without tears', category: 'utilities' },
+            { name: 'React Query', command: 'npm install react-query', description: 'Data fetching library for React', category: 'utilities' },
+            { name: 'SWR', command: 'npm install swr', description: 'Data fetching library with caching', category: 'utilities' },
+            { name: 'Immer', command: 'npm install immer', description: 'Create immutable state by mutating current state', category: 'utilities' },
+            { name: 'React Helmet', command: 'npm install react-helmet', description: 'Manage document head in React', category: 'utilities' }
+        ];
+
+        let currentCategory = 'all';
+        let currentSearchTerm = '';
+        let isAppInitialized = false;
+
+        // Initialize app after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            debugLog('DOM loaded, starting initialization...');
+            
+            // Check if elements exist
+            const splashScreen = document.getElementById('splashScreen');
+            const mainApp = document.getElementById('mainApp');
+            
+            if (!splashScreen || !mainApp) {
+                debugLog('ERROR: Required elements not found!', { splashScreen: !!splashScreen, mainApp: !!mainApp });
+                return;
+            }
+            
+            debugLog('Elements found, setting up splash screen...');
+            
+            // Show splash screen for 3 seconds, then initialize app
+            setTimeout(() => {
+                debugLog('Hiding splash screen...');
+                splashScreen.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    splashScreen.style.display = 'none';
+                    mainApp.classList.add('show');
+                    
+                    debugLog('Initializing main app...');
+                    initializeApp();
+                    
+                }, 800);
+            }, 5000);
+        });
+
+        function initializeApp() {
+            if (isAppInitialized) {
+                debugLog('App already initialized, skipping...');
+                return;
+            }
+            
+            debugLog('Starting app initialization...');
+            
+            try {
+                initializeTabs();
+                initializeCreateProject();
+                initializePackages();
+                initializeWindowControls();
+                
+                isAppInitialized = true;
+                debugLog('App initialization completed successfully!');
+                
+            } catch (error) {
+                debugLog('ERROR during app initialization:', error);
+            }
+        }
+
+        function initializeTabs() {
+            debugLog('Initializing tabs...');
+            
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            debugLog('Found tab buttons:', tabBtns.length);
+            debugLog('Found tab contents:', tabContents.length);
+
+            if (tabBtns.length === 0 || tabContents.length === 0) {
+                debugLog('ERROR: Tab elements not found!');
+                return;
+            }
+
+            tabBtns.forEach((btn, index) => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const tabName = this.dataset.tab;
+                    debugLog('Tab clicked:', tabName, 'Button index:', index);
+                    
+                    // Remove active class from all buttons
+                    tabBtns.forEach(b => {
+                        b.classList.remove('active');
+                        debugLog('Removed active from button:', b.dataset.tab);
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    debugLog('Added active to button:', tabName);
+                    
+                    // Hide all tab contents
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        debugLog('Removed active from content:', content.id);
+                    });
+                    
+                    // Show the selected tab content
+                    const targetContent = document.getElementById(`${tabName}-tab`);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                        debugLog('Added active to content:', `${tabName}-tab`);
+                        
+                        // If switching to packages tab, render packages after a short delay
+                        if (tabName === 'packages') {
+                            debugLog('Switching to packages tab, will render packages...');
+                            setTimeout(() => {
+                                renderPackages();
+                            }, 100);
+                        }
+                    } else {
+                        debugLog('ERROR: Target content not found:', `${tabName}-tab`);
+                    }
+                });
+            });
+            
+            debugLog('Tab initialization completed');
+        }
+
+        function initializeCreateProject() {
+            debugLog('Initializing create project functionality...');
+            
+            // Project type selection
+            const projectTypeCards = document.querySelectorAll('.project-type-card');
+            projectTypeCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    projectTypeCards.forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    debugLog('Selected project type:', this.dataset.type);
+                });
+            });
+            
+            debugLog('Create project initialization completed');
+        }
+
+        function initializePackages() {
+            debugLog('Initializing packages functionality...');
+            
+            // Category buttons
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            debugLog('Found category buttons:', categoryBtns.length);
+            
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const category = this.dataset.category;
+                    debugLog('Category button clicked:', category);
+                    
+                    // Update active state
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update current category and render
+                    currentCategory = category;
+                    renderPackages();
+                });
+            });
+
+            // Search input
+            const searchInput = document.getElementById('packageSearch');
+            if (searchInput) {
+                debugLog('Search input found, adding listeners...');
+                
+                searchInput.addEventListener('input', function() {
+                    currentSearchTerm = this.value.toLowerCase().trim();
+                    debugLog('Search term updated:', currentSearchTerm);
+                    renderPackages();
+                });
+                
+                // Also listen for keyup for immediate feedback
+                searchInput.addEventListener('keyup', function() {
+                    currentSearchTerm = this.value.toLowerCase().trim();
+                    debugLog('Search keyup:', currentSearchTerm);
+                    renderPackages();
+                });
+            } else {
+                debugLog('ERROR: Search input not found!');
+            }
+
+            // Initial render
+            debugLog('Performing initial package render...');
+            renderPackages();
+            
+            debugLog('Packages initialization completed');
+        }
+
+        function initializeWindowControls() {
+            debugLog('Initializing window controls...');
+            
+            const minimizeBtn = document.getElementById('minimizeBtn');
+            const maximizeBtn = document.getElementById('maximizeBtn');
+            const closeBtn = document.getElementById('closeBtn');
+
+            if (minimizeBtn) {
+                minimizeBtn.addEventListener('click', () => {
+                    if (window.electronAPI && window.electronAPI.minimizeWindow) {
+                        window.electronAPI.minimizeWindow();
+                    }
+                });
+            }
+
+            if (maximizeBtn) {
+                maximizeBtn.addEventListener('click', () => {
+                    if (window.electronAPI && window.electronAPI.maximizeWindow) {
+                        window.electronAPI.maximizeWindow();
+                    }
+                });
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    if (window.electronAPI && window.electronAPI.closeWindow) {
+                        window.electronAPI.closeWindow();
+                    }
+                });
+            }
+            
+            debugLog('Window controls initialization completed');
+        }
+
+        function renderPackages() {
+            debugLog('Starting package render...', {
+                currentCategory,
+                currentSearchTerm,
+                totalPackages: packagesData.length
+            });
+            
+            const packagesGrid = document.getElementById('packagesGrid');
+            if (!packagesGrid) {
+                debugLog('ERROR: Packages grid not found!');
+                return;
+            }
+
+            // Filter packages
+            let filteredPackages = [...packagesData];
+
+            // Filter by category
+            if (currentCategory !== 'all') {
+                filteredPackages = filteredPackages.filter(pkg => pkg.category === currentCategory);
+                debugLog('Filtered by category:', currentCategory, 'Count:', filteredPackages.length);
+            }
+
+            // Filter by search term
+            if (currentSearchTerm) {
+                filteredPackages = filteredPackages.filter(pkg => 
+                    pkg.name.toLowerCase().includes(currentSearchTerm) ||
+                    pkg.description.toLowerCase().includes(currentSearchTerm) ||
+                    pkg.category.toLowerCase().includes(currentSearchTerm)
+                );
+                debugLog('Filtered by search:', currentSearchTerm, 'Count:', filteredPackages.length);
+            }
+
+            debugLog('Final filtered packages count:', filteredPackages.length);
+
+            // Render packages
+            if (filteredPackages.length === 0) {
+                packagesGrid.innerHTML = `
+                    <div class="no-packages">
+                        <p>No packages found matching your criteria.</p>
+                    </div>
+                `;
+                debugLog('No packages to display');
+                return;
+            }
+
+            debugLog('Rendering packages to grid...');
+            
+            const packagesHTML = filteredPackages.map(pkg => `
+                <div class="package-card" data-category="${pkg.category}">
+                    <div class="package-header">
+                        <h3 class="package-name">${escapeHtml(pkg.name)}</h3>
+                        <span class="package-category">${escapeHtml(pkg.category)}</span>
+                    </div>
+                    <p class="package-description">${escapeHtml(pkg.description)}</p>
+                    <div class="package-command">
+                        <code class="command-text">${escapeHtml(pkg.command)}</code>
+                        <button class="copy-btn" data-command="${escapeHtml(pkg.command)}">
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            packagesGrid.innerHTML = packagesHTML;
+            debugLog('Packages HTML rendered, adding event listeners...');
+
+            // Add event listeners to copy buttons
+            addCopyListeners();
+            
+            debugLog('Package render completed successfully!');
+        }
+
+        function addCopyListeners() {
+            debugLog('Adding copy button event listeners...');
+            
+            const copyBtns = document.querySelectorAll('.copy-btn');
+            debugLog('Found copy buttons:', copyBtns.length);
+            
+            copyBtns.forEach((btn, index) => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const command = this.dataset.command;
+                    debugLog('Copy button clicked:', index, 'Command:', command);
+                    
+                    if (!command) {
+                        debugLog('ERROR: No command found for copy button');
+                        return;
+                    }
+                    
+                    copyToClipboard(command);
+                });
+            });
+            
+            debugLog('Copy listeners added successfully');
+        }
+
+        async function copyToClipboard(command) {
+            debugLog('Attempting to copy command:', command);
+            
+            try {
+                // Method 1: Try Electron API first
+                if (window.electronAPI && window.electronAPI.copyToClipboard) {
+                    debugLog('Trying Electron API...');
+                    const result = await window.electronAPI.copyToClipboard(command);
+                    if (result && result.success) {
+                        debugLog('Electron API copy successful');
+                        showCopyNotification();
+                        return;
+                    } else {
+                        debugLog('Electron API copy failed:', result);
+                    }
+                }
+                
+                // Method 2: Try modern clipboard API
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    debugLog('Trying navigator.clipboard API...');
+                    await navigator.clipboard.writeText(command);
+                    debugLog('Navigator clipboard copy successful');
+                    showCopyNotification();
+                    return;
+                }
+                
+                // Method 3: Fallback to execCommand
+                debugLog('Trying execCommand fallback...');
+                const textArea = document.createElement('textarea');
+                textArea.value = command;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-9999px';
+                textArea.style.top = '-9999px';
+                textArea.style.opacity = '0';
+                textArea.style.pointerEvents = 'none';
+                
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                textArea.setSelectionRange(0, 99999); // For mobile devices
+                
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                if (successful) {
+                    debugLog('ExecCommand copy successful');
+                    showCopyNotification();
+                } else {
+                    debugLog('ExecCommand copy failed');
+                    throw new Error('ExecCommand failed');
+                }
+                
+            } catch (error) {
+                debugLog('All copy methods failed:', error);
+                
+                // Show fallback alert
+                alert(`Failed to copy automatically. Please copy manually:\n\n${command}`);
+            }
+        }
+
+        function showCopyNotification() {
+            debugLog('Showing copy notification...');
+            
+            const notification = document.getElementById('copyNotification');
+            if (!notification) {
+                debugLog('ERROR: Copy notification element not found');
+                return;
+            }
+            
+            // Remove any existing show class first
+            notification.classList.remove('show');
+            
+            // Force reflow
+            notification.offsetHeight;
+            
+            // Add show class
+            notification.classList.add('show');
+            
+            // Remove after 2 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                debugLog('Copy notification hidden');
+            }, 2000);
+            
+            debugLog('Copy notification displayed');
+        }
+
+        // Utility function to escape HTML
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+
+        // Global error handler
+        window.addEventListener('error', function(e) {
+            debugLog('Global error caught:', e.error, e.message, e.filename, e.lineno);
+        });
+
+        // Unhandled promise rejection handler
+        window.addEventListener('unhandledrejection', function(e) {
+            debugLog('Unhandled promise rejection:', e.reason);
+        });
+
+        debugLog('Script loaded and ready');
+    </script>
+    
+    <script src="renderer.js"></script>
+</body>
+</html>

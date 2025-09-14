@@ -1,0 +1,57 @@
+{
+  "name": "react-project-installer",
+  "version": "1.0.0",
+  "description": "A beautiful desktop app to easily install React projects",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --publish=never",
+    "build-win": "electron-builder --win"
+  },
+  "keywords": [
+    "electron",
+    "react",
+    "installer",
+    "developer-tools"
+  ],
+  "author": "React Nest Team",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^27.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "dependencies": {
+    "node-pty": "^1.0.0"
+  },
+  "build": {
+    "appId": "com.reactinstaller.app",
+    "productName": "React Nest",
+    "npmRebuild": false,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer.js",
+      "index.html",
+      "styles.css",
+      "node_modules/**/*",
+      "reactnest.png"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "build/icon.icns"
+    },
+    "win": {
+      "icon": "build/icon.ico"
+    },
+    "linux": {
+      "icon": "build/icon.png"
+    }
+  },
+  "type": "commonjs"
+}
